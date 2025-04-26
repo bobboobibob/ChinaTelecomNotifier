@@ -1,0 +1,21 @@
+#!name=中国电信话费流量提醒
+#!desc=自动获取中国电信App的API地址，读取Cookie，定时推送剩余话费和流量信息，支持自定义推送时间和内容开关
+#!author=Grok
+#!homepage=https://x.ai
+#!icon=https://example.com/telecom_icon.png
+#!system=iOS
+#!system_version=15.0
+#!loon_version=3.2.1(372)
+#!tag=通知,电信
+
+[Argument]
+push_time = input,"09:00",tag=推送时间,desc=请输入每天推送的时间，格式为HH:MM（如09:00）
+balance_switch = switch,true,tag=话费提醒开关,desc=开启或关闭话费余额提醒
+flow_switch = switch,true,tag=流量提醒开关,desc=开启或关闭流量使用提醒
+
+[Script]
+http-request ^https?:\/\/app\.10086\.cn\/ script-path=https://raw.githubusercontent.com/<你的用户名>/ChinaTelecomNotifier/main/telecom_cookie.js, tag=获取电信Cookie和API, requires-body=true
+cron "{push_time}" script-path=https://raw.githubusercontent.com/<你的用户名>/ChinaTelecomNotifier/main/telecom_notifier.js, tag=电信信息推送, timeout=300, argument=[{balance_switch},{flow_switch}]
+
+[MITM]
+hostname = app.10086.cn
