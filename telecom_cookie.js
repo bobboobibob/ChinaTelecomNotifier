@@ -11,8 +11,8 @@ if (headers && headers["Cookie"]) {
     $notification.post("中国电信", "Cookie获取失败", "未找到Cookie");
 }
 
-// 捕获API地址（匹配包含bill, query, balance, flow等关键词的URL）
-if (url.includes("app.10086.cn") && /bill|query|balance|flow/i.test(url)) {
+// 捕获API地址（匹配包含bill, query, balance, flow, biz等关键词的URL）
+if (url.includes("app.10086.cn") && /bill|query|balance|flow|biz/i.test(url)) {
     $persistentStore.write(url, apiKey);
     $notification.post("中国电信", "API地址获取成功", `已保存API: ${url}`);
 }
